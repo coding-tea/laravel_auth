@@ -20,15 +20,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', function(){
-    return view('layout');
+    return view('auth');
 })->name('home');
 
-Route::get('/login', [loginController::class, 'show'])->name('login');
-Route::post('/login', [loginController::class, 'login'])->name('action.login');
-
-Route::get('/register', [registerController::class, 'show'])->name('register');
+Route::get('/register', [registerController::class, 'show'])->name('register')->middleware('guest');
 Route::post('/register', [registerController::class, 'register'])->name('action.register');
 
-Route::post('/logout', [logoutController::class, 'logout'])->name('logout')->middleware('auth');
+Route::get('login', [loginController::class, 'show'])->name('login')->middleware('guest');
+Route::post('/login', [loginController::class, 'login'])->name('action.login');
 
-Route::resource('/announces', announceController::class)->middleware('auth');
+Route::post('/logout', [logoutController::class, 'logout'])->name('logout');
